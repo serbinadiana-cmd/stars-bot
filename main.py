@@ -77,42 +77,42 @@ async def process_stars_count(message: types.Message, state: FSMContext):
         await message.answer("⚠️ Минимальный заказ – 50 Stars. Введите другое количество:")
         return
 
-await state.update_data(stars=stars)
-rate = 0.75  # 1 stars = 0.75 UAH
-total = stars * rate
+    await state.update_data(stars=stars)
+    rate = 0.75  # 1 stars = 0.75 UAH
+    total = stars * rate
 
-await state.update_data(total=total)
-await state.set_state(OrderState.waiting_for_username)
+    await state.update_data(total=total)
+    await state.set_state(OrderState.waiting_for_username)
 
-text = (
+    text = (
     f"🛒 Ваш заказ: {stars} Stars\n"
     f"💵 К оплате: {total:.2f} грн\n\n"
     "Введите ваш юзернейм в Telegram (например, @username), на который нужно зачислить звезды:"
 )
-await message.answer(text)
+    await message.answer(text)
 @router.message(OrderState.waiting_for_username) 
 async def process_username(message: types.Message, state: FSMContext): 
     username = message.text.strip() 
     if not username.startswith("@"): 
         await message.answer("❌ Юзернейм должен начинаться с символа @. Попробуйте снова:") 
         return
-await state.update_data(username=username)
-data = await state.get_data()
-stars = data["stars"]
-total = data["total"]
+    await state.update_data(username=username)
+    data = await state.get_data()
+    stars = data["stars"]
+    total = data["total"]
 
-user_id = message.from_user.id
-active_orders[user_id] = "waiting_acceptance"
+    user_id = message.from_user.id
+    active_orders[user_id] = "waiting_acceptance"
 
-# Уведомление администратору
-admin_text = (
+    # Уведомление администратору
+    admin_text = (
     "🔔 **Новая заявка на покупку Stars!**\n\n"
     f"👤 Покупатель: @{message.from_user.username or 'нет'} (ID: {user_id})\n"
     f"🎯 Получатель: {username}\n"
     f"⭐ Количество: {stars} Stars\n"
     f"💵 Сумма к оплате: {total:.2f} грн\n\n"
     "Ожидайте подтверждения продавца."
-)
+    )
 
 kb = InlineKeyboardMarkup(inline_keyboard=[
     [
