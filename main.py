@@ -88,7 +88,7 @@ async def process_stars_count(message: types.Message, state: FSMContext):
     f"🛒 Ваш заказ: {stars} Stars\n"
     f"💵 К оплате: {total:.2f} грн\n\n"
     "Введите ваш юзернейм в Telegram (например, @username), на который нужно зачислить звезды:"
-)
+    )
     await message.answer(text)
 @router.message(OrderState.waiting_for_username) 
 async def process_username(message: types.Message, state: FSMContext): 
