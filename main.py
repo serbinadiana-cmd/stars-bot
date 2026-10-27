@@ -122,7 +122,7 @@ kb = InlineKeyboardMarkup(inline_keyboard=[
     ])
 
 try:
-        await bot.send_message(ADMIN_ID, admin_text, reply_markup=kb)
+await bot.send_message(ADMIN_ID, admin_text, reply_markup=kb)
 except Exception as e:
     logging.error(f"Не удалось отправить уведомление админу: {e}")
 
