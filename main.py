@@ -121,17 +121,17 @@ kb = InlineKeyboardMarkup(inline_keyboard=[
     ]
     ])
 
-    try:
-        await bot.send_message(ADMIN_ID, admin_text, reply_markup=kb)
-    except Exception as e:
-        logging.error(f"Не удалось отправить уведомление админу: {e}")
+try:
+    await bot.send_message(ADMIN_ID, admin_text, reply_markup=kb)
+except Exception as e:
+    logging.error(f"Не удалось отправить уведомление админу: {e}")
 
-        await state.set_state(OrderState.waiting_for_acceptance)
-        await message.answer(
-            "⏳ Заявка успешно создана и отправлена администратору!\n\n"
-            "Пожалуйста, ожидайте, пока продавец подтвердит заказ (обычно это занимает до 10 минут). "
-            "Как только заявка будет принята, вам придут реквизиты для оплаты."
-        )
+    await state.set_state(OrderState.waiting_for_acceptance)
+    await message.answer(
+        "⏳ Заявка успешно создана и отправлена администратору!\n\n"
+        "Пожалуйста, ожидайте, пока продавец подтвердит заказ (обычно это занимает до 10 минут). "
+        "Как только заявка будет принята, вам придут реквизиты для оплаты."
+    )
 @router.callback_query(F.data.startswith("accept_")) 
 async def admin_accept_order(call: types.CallbackQuery): 
     if call.from_user.id != ADMIN_ID: 
