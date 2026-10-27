@@ -72,7 +72,7 @@ async def process_stars_count(message: types.Message, state: FSMContext):
     if not message.text or not message.text.isdigit(): 
         await message.answer("❌ Пожалуйста, введите число (например, 50):") 
         return
-stars = int(message.text)
+    stars = int(message.text)
     if stars < 50:
         await message.answer("⚠️ Минимальный заказ – 50 Stars. Введите другое количество:")
         return
