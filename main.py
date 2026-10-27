@@ -32,15 +32,36 @@ dp.include_router(router)
 @router.message(CommandStart()) 
 async def cmd_start(message: types.Message, state: FSMContext): 
     await state.clear() 
-    text = ( "⭐ Добро пожаловать в официальный бот по продаже Telegram Stars за гривны!\n\n" "Здесь вы можете быстро и безопасно купить Звезды для вашего аккаунта или канала.\n\n" "Нажмите кнопку ниже, чтобы начать покупку:" ) kb = InlineKeyboardMarkup(inline_keyboard=[ [InlineKeyboardButton(text="⭐ Купить Stars", callback_data="buy_stars")], [InlineKeyboardButton(text="📌 Правила", callback_data="show_rules")] ]) await message.answer(text, reply_markup=kb)
+    text = ( 
+        "⭐ Добро пожаловать в официальный бот по продаже Telegram Stars за гривны!\n\n" 
+        "Здесь вы можете быстро и безопасно купить Звезды для вашего аккаунта или канала.\n\n" 
+        "Нажмите кнопку ниже, чтобы начать покупку:" 
+    ) 
+    kb = InlineKeyboardMarkup(inline_keyboard=[ 
+        [InlineKeyboardButton(text="⭐ Купить Stars", callback_data="buy_stars")], 
+        [InlineKeyboardButton(text="📌 Правила", callback_data="show_rules")] 
+    ]) 
+    await message.answer(text, reply_markup=kb)
 @router.callback_query(F.data == "show_rules") 
-async def show_rules_handler(call: types.CallbackQuery): kb = InlineKeyboardMarkup(inline_keyboard=[ [InlineKeyboardButton(text="◀️ Назад в меню", callback_data="back_to_start")] ]) 
+async def show_rules_handler(call: types.CallbackQuery): 
+    kb = InlineKeyboardMarkup(inline_keyboard=[ 
+        [InlineKeyboardButton(text="◀️ Назад в меню", callback_data="back_to_start")] 
+    ]) 
     await call.message.edit_text(RULES_TEXT, reply_markup=kb) 
-await call.answer()
+    await call.answer()
 @router.callback_query(F.data == "back_to_start") 
 async def back_to_start_handler(call: types.CallbackQuery, state: FSMContext): 
     await state.clear() 
-    text = ( "⭐ Добро пожаловать в официальный бот по продаже Telegram Stars за гривны!\n\n" "Нажмите кнопку ниже, чтобы начать покупку:" ) kb = InlineKeyboardMarkup(inline_keyboard=[ [InlineKeyboardButton(text="⭐ Купить Stars", callback_data="buy_stars")], [InlineKeyboardButton(text="📌 Правила", callback_data="show_rules")] ]) await call.message.edit_text(text, reply_markup=kb) await call.answer()
+    text = ( 
+        "⭐ Добро пожаловать в официальный бот по продаже Telegram Stars за гривны!\n\n" 
+        "Нажмите кнопку ниже, чтобы начать покупку:" 
+    )
+    kb = InlineKeyboardMarkup(inline_keyboard=[ 
+        [InlineKeyboardButton(text="⭐ Купить Stars", callback_data="buy_stars")], 
+        [InlineKeyboardButton(text="📌 Правила", callback_data="show_rules")] 
+    ]) 
+    await call.message.edit_text(text, reply_markup=kb) 
+    await call.answer()
 @router.callback_query(F.data == "buy_stars") 
 async def ask_stars_count(call: types.CallbackQuery, state: FSMContext): 
     await state.set_state(OrderState.waiting_for_stars) 
