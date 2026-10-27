@@ -119,7 +119,7 @@ kb = InlineKeyboardMarkup(inline_keyboard=[
         InlineKeyboardButton(text="✅ Принять заявку", callback_data=f"accept_{user_id}"),
         InlineKeyboardButton(text="❌ Отклонить", callback_data=f"reject_{user_id}")
     ]
-])
+    ])
 
     try:
         await bot.send_message(ADMIN_ID, admin_text, reply_markup=kb)
