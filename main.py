@@ -157,7 +157,7 @@ except Exception as e:
     logging.error(f"Не удалось отправить реквизиты пользователю {user_id}: {e}")
 @router.callback_query(F.data.startswith("reject_")) 
 async def admin_reject_order(call: types.CallbackQuery): 
-    if call.from_user.id != ADMIN_ID: 
+if call.from_user.id != ADMIN_ID: 
     await call.answer("У вас нет прав!", show_alert=True) 
     return
 user_id = int(call.data.split("_")[1])
@@ -178,5 +178,5 @@ async def main():
     logging.basicConfig(level=logging.INFO) 
     print("Бот успешно запущен!") 
     await dp.start_polling(bot)
-    if __name__ == "__main__": 
+if __name__ == "__main__": 
     asyncio.run(main())
