@@ -70,12 +70,12 @@ async def ask_stars_count(call: types.CallbackQuery, state: FSMContext):
 @router.message(OrderState.waiting_for_stars) 
 async def process_stars_count(message: types.Message, state: FSMContext): 
     if not message.text or not message.text.isdigit(): 
-    await message.answer("❌ Пожалуйста, введите число (например, 50):") 
-    return
+        await message.answer("❌ Пожалуйста, введите число (например, 50):") 
+        return
 stars = int(message.text)
-if stars < 50:
-    await message.answer("⚠️ Минимальный заказ – 50 Stars. Введите другое количество:")
-    return
+    if stars < 50:
+        await message.answer("⚠️ Минимальный заказ – 50 Stars. Введите другое количество:")
+        return
 
 await state.update_data(stars=stars)
 rate = 0.75  # 1 stars = 0.75 UAH
