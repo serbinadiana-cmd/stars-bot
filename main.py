@@ -133,10 +133,10 @@ await message.answer(
     "Как только заявка будет принята, вам придут реквизиты для оплаты."
 )
 @router.callback_query(F.data.startswith("accept_")) 
-    async def admin_accept_order(call: types.CallbackQuery): 
+async def admin_accept_order(call: types.CallbackQuery): 
 if call.from_user.id != ADMIN_ID: 
-    await call.answer("У вас нет прав!", show_alert=True) 
-    return
+        await call.answer("У вас нет прав!", show_alert=True) 
+        return
 user_id = int(call.data.split("_")[1])
 active_orders[user_id] = "waiting_payment"
 
